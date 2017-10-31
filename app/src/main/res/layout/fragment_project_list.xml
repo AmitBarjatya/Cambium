@@ -1,105 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rvProjectList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/rlProjectListActions"
-        android:visibility="gone"/>
-
-    <RelativeLayout
-        android:id="@+id/rlFetchingData"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rlProjectListActions"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/fragment_project_list_fetching_data" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rlError"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_below="@+id/rlProjectListActions"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:id="@+id/errorText"
-            android:text="@string/fragment_project_list_error" />
-    </RelativeLayout>
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rlProjectListActions"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/filter"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/background_pink_round_corner"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="8dp"
-            android:text="Filter"
-            android:layout_centerVertical="true"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_below="@+id/search"/>
-
-        <TextView
-            android:id="@+id/sort"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_pink_round_corner"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:layout_below="@+id/search"
-            android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="8dp"
-            android:text="Sort"
-            android:layout_centerVertical="true"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:layout_toLeftOf="@+id/filter"
-            android:textStyle="bold"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
-
-        <EditText
+        <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:id="@+id/search"
-            android:hint="Search by title ..."
-            android:maxLines="1"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:inputType="text"
-            android:imeOptions="actionDone"/>
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/item_project_padding"
+            app:layout_scrollFlags="scroll|enterAlways">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rlProjectListActions"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
+                <TextView
+                    android:id="@+id/filter"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/background_pink_round_corner"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="8dp"
+                    android:text="Filter"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/search"/>
+
+                <TextView
+                    android:id="@+id/sort"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_pink_round_corner"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:layout_below="@+id/search"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="8dp"
+                    android:text="Sort"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_toLeftOf="@+id/filter"
+                    android:textStyle="bold"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/search"
+                    android:hint="Search by title ..."
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rvProjectList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/rlFetchingData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/fragment_project_list_fetching_data" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlError"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/errorText"
+                android:text="@string/fragment_project_list_error" />
+        </RelativeLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
+
 
