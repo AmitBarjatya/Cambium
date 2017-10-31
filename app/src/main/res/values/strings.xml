@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Cambium</string>
+    <string name="fragment_project_list_fetching_data">Wait..We are fetching data from servers ...</string>
+    <string name="fragment_project_list_error">Some Error Occured.. please make sure you are connected to internet and try again</string>
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="@dimen/item_project_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show items with backers in range ..."
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:id="@+id/header"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:hint="Min Value"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:id="@+id/minValue"
+        android:layout_below="@+id/header"
+        android:inputType="number"
+        android:imeOptions="actionNext"
+        android:paddingLeft="@dimen/item_project_padding"
+        android:background="@android:color/white"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dfdfdf"
+        android:layout_below="@id/minValue"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:hint="Max Value"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:id="@+id/maxValue"
+        android:layout_below="@+id/minValue"
+        android:inputType="number"
+        android:imeOptions="actionDone"
+        android:paddingLeft="@dimen/item_project_padding"
+        android:background="@android:color/white"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dfdfdf"
+        android:layout_below="@id/maxValue"></View>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maxValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Done"
+        android:id="@+id/done"/>
+
+
+</RelativeLayout>
