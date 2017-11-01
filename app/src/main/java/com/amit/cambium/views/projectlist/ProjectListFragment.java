@@ -133,7 +133,7 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
 
     void initRecyclerView() {
         projects = new ArrayList<>();
-        mAdapter = new ProjectListAdapter(projects, this);
+        mAdapter = new ProjectListAdapter(projects, this,getContext());
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rvProjectList.setLayoutManager(llm);
         rvProjectList.setAdapter(mAdapter);
@@ -281,7 +281,7 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
 
     /**
      * Show error screen with this message
-     * @param errorMessage
+     * @param errorMessage the error message to show on screen
      */
     @Override
     public void showErrorScreen(String errorMessage) {

@@ -2,4 +2,10 @@
     <string name="app_name">Cambium</string>
     <string name="fragment_project_list_fetching_data">Wait..We are fetching data from servers ...</string>
     <string name="fragment_project_list_error">Some Error Occured.. please make sure you are connected to internet and try again</string>
+    <string name="all_project_by_placeholder">Project by %s</string>
+    <string name="all_amount_pledged_placeholder">Amount Pledged: %s</string>
+    <string name="all_backers_placeholder">Backers: %d</string>
+    <string name="all_ending_on_placeholder">Ending on %s</string>
+    <string name="all_percentage_completed_placeholder">Percentage funded: %f %%</string>
+    <string name="all_location_placeholder">Location: %s ( %s )</string>
 </resources>

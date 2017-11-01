@@ -115,14 +115,14 @@ public class ProjectDetailFragment extends Fragment implements ProjectDetailCont
     @Override
     public void showProjectDetails(Project project) {
         title.setText(project.getTitle());
-        owner.setText(String.format("Project by %s", project.getBy()));
+        owner.setText(String.format(getString(R.string.all_project_by_placeholder), project.getBy()));
         blurb.setText(project.getBlurb());
         String amt = DisplayUtils.currencyFormat(project.getCurrency(), project.getAmtPledged());
-        amtPledged.setText(String.format("Amount Pledged: %s", amt));
-        backers.setText("Backers: " + project.getNumBackers());
-        endsOn.setText("Ending on " + sdf.format(project.getEndTime()));
+        amtPledged.setText(String.format(getString(R.string.all_amount_pledged_placeholder), amt));
+        backers.setText(String.format(getString(R.string.all_backers_placeholder),project.getNumBackers()));
+        endsOn.setText(String.format(getString(R.string.all_ending_on_placeholder), sdf.format(project.getEndTime())));
         double percentage = ((double) project.getPercentageFunded()) / 100;
-        percentageFunded.setText("Percentage funded: " + percentage + " %");
-        location.setText("Location: " + project.getLocation() + " ( " + project.getCountry() + " )");
+        percentageFunded.setText(String.format(getString(R.string.all_percentage_completed_placeholder), percentage));
+        location.setText(String.format(getString(R.string.all_location_placeholder), project.getLocation(), project.getCountry()));
     }
 }
