@@ -110,7 +110,7 @@ public class DataSourceImpl implements DataSource {
         if (realm.isClosed())
             realm = Realm.getDefaultInstance();
         return realm.where(Project.class)
-                .equalTo("serialNumber", serialNumber)
+                .equalTo(Project.FIELD_SERIAL_NUMBER, serialNumber)
                 .findFirst();
     }
 
@@ -137,8 +137,8 @@ public class DataSourceImpl implements DataSource {
             realm = Realm.getDefaultInstance();
 
         return realm.where(Project.class)
-                .greaterThan("numBackers",minValue)
-                .lessThan("numBackers",maxValue)
+                .greaterThan(Project.FIELD_NUM_BACKERS,minValue)
+                .lessThan(Project.FIELD_NUM_BACKERS,maxValue)
                 .findAll();
     }
 
@@ -149,7 +149,7 @@ public class DataSourceImpl implements DataSource {
     @Override
     public List<Project> withEndAscendingSort() {
         return realm.where(Project.class)
-                .findAllSorted("endTime", Sort.ASCENDING);
+                .findAllSorted(Project.FIELD_END_TIME, Sort.ASCENDING);
     }
 
     /**
@@ -159,7 +159,7 @@ public class DataSourceImpl implements DataSource {
     @Override
     public List<Project> withEndDescendingSort() {
         return realm.where(Project.class)
-                .findAllSorted("endTime", Sort.DESCENDING);
+                .findAllSorted(Project.FIELD_END_TIME, Sort.DESCENDING);
     }
 
     /**
@@ -169,7 +169,7 @@ public class DataSourceImpl implements DataSource {
     @Override
     public List<Project> withA2ZSort() {
         return realm.where(Project.class)
-                .findAllSorted("title", Sort.ASCENDING);
+                .findAllSorted(Project.FIELD_TITLE, Sort.ASCENDING);
     }
 
     /**
@@ -179,7 +179,7 @@ public class DataSourceImpl implements DataSource {
     @Override
     public List<Project> withZ2ASort() {
         return realm.where(Project.class)
-                .findAllSorted("title", Sort.DESCENDING);
+                .findAllSorted(Project.FIELD_TITLE, Sort.DESCENDING);
 
     }
 
@@ -249,7 +249,7 @@ public class DataSourceImpl implements DataSource {
             return projects;
         }else{
             return realm.where(Project.class)
-                    .contains("title",s, Case.INSENSITIVE)
+                    .contains(Project.FIELD_TITLE,s, Case.INSENSITIVE)
                     .findAll();
         }
     }

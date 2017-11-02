@@ -36,6 +36,21 @@ import io.realm.annotations.PrimaryKey;
 
 public class Project extends RealmObject {
 
+    public static final String FIELD_SERIAL_NUMBER="serialNumber";
+    public static final String FIELD_AMT_PLEDGED="amtPledged";
+    public static final String FIELD_BLURB="blurb";
+    public static final String FIELD_BY="by";
+    public static final String FIELD_COUNTRY="country";
+    public static final String FIELD_CURRENCY="currency";
+    public static final String FIELD_END_TIME="endTime";
+    public static final String FIELD_LOCATION="location";
+    public static final String FIELD_PERCENTAGE_FUNDED="percentageFunded";
+    public static final String FIELD_NUM_BACKERS="numBackers";
+    public static final String FIELD_STATE="state";
+    public static final String FIELD_TITLE="title";
+    public static final String FIELD_TYPE="type";
+    public static final String FIELD_URL="url";
+
     @PrimaryKey
     private long serialNumber;
     private long amtPledged;
