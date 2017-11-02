@@ -76,7 +76,7 @@ public class ProjectDetailFragment extends Fragment implements ProjectDetailCont
         super.onViewCreated(view, savedInstanceState);
         mPresenter = new ProjectDetailPresenter(this);
         if (getArguments() != null) {
-            long serialNumber = getArguments().getLong("serial_number");
+            long serialNumber = getArguments().getLong("serialNumber");
             mPresenter.setSerialNumber(serialNumber);
         }
     }
