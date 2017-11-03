@@ -46,15 +46,6 @@ public class ProjectListPresenter implements ProjectListContract.Presenter, Data
         dataSource.clearListeners();
     }
 
-    /**
-     * Action to be taken when user clicks on an item in the view
-     * Current Action: takes user to the details of this project
-     * @param project
-     */
-    @Override
-    public void onItemClicked(Project project) {
-        mView.showDetailsFragmentFor(project);
-    }
 
     /**
      * Data callback from datasource on successful data fetched

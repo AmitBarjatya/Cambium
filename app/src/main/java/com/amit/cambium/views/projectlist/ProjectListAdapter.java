@@ -1,6 +1,7 @@
 package com.amit.cambium.views.projectlist;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import com.amit.cambium.R;
 import com.amit.cambium.models.Project;
 import com.amit.cambium.utils.DisplayUtils;
-import com.amit.cambium.utils.ItemClickListener;
+import com.amit.cambium.utils.ProjectItemClickListener;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     /**
      * Notify the consumer about item clicks
      */
-    private ItemClickListener clickListener;
+    private ProjectItemClickListener clickListener;
 
     /**
      * Context in which adapter is running
@@ -40,7 +41,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context mContext;
 
     ProjectListAdapter(List<Project> projects,
-                              ItemClickListener listener, Context context) {
+                       ProjectItemClickListener listener, Context context) {
         this.projects = projects;
         this.clickListener = listener;
         this.mContext = context;
@@ -52,10 +53,15 @@ public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return new ProjectItemViewHolder(view);
     }
 
+    //For using material transition, each view must have a unique transition name
+    //for system to identify where to transition a view when it comes back
+    //Here, we are using the title as our transition name.
+    //For better control, we can even use a hash generated using the Project values
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
-        ProjectItemViewHolder holder = (ProjectItemViewHolder) holder1;
+        final ProjectItemViewHolder holder = (ProjectItemViewHolder) holder1;
         final Project project = projects.get(position);
+        ViewCompat.setTransitionName(holder.projectTitle,project.getTitle());
         holder.projectOwner.setText(String.format(mContext.getString(R.string.all_project_by_placeholder), project.getBy()));
         holder.projectTitle.setText(project.getTitle());
         holder.blurb.setText(project.getBlurb());
@@ -65,7 +71,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickListener.onClick(project);
+                clickListener.onClick(project,holder.projectTitle,project.getTitle());
             }
         });
     }

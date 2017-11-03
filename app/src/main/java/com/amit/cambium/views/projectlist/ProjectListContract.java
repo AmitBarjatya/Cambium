@@ -18,11 +18,7 @@ public interface ProjectListContract {
 
         void showErrorScreen(String errorMessage);
 
-        void showDataFetchScreen();
-
         void showRecyclerView();
-
-        void showDetailsFragmentFor(Project project);
 
         void showToast(String s);
     }
@@ -32,8 +28,6 @@ public interface ProjectListContract {
         void onResumed();
 
         void onPaused();
-
-        void onItemClicked(Project project);
 
         void applyBackerFilter(String minBacker, String maxBacker);
 

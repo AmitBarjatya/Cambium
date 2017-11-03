@@ -1,8 +1,10 @@
 package com.amit.cambium.views.projectdetail;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +59,16 @@ public class ProjectDetailFragment extends Fragment implements ProjectDetailCont
     Unbinder unbinder;
     ProjectDetailContract.Presenter mPresenter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        postponeEnterTransition();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            setSharedElementEnterTransition(
+                    TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        }
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -76,8 +88,13 @@ public class ProjectDetailFragment extends Fragment implements ProjectDetailCont
         super.onViewCreated(view, savedInstanceState);
         mPresenter = new ProjectDetailPresenter(this);
         if (getArguments() != null) {
+            String transitionName = getArguments().getString("transitionName");
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                title.setTransitionName(transitionName);
+            }
             long serialNumber = getArguments().getLong("serialNumber");
             mPresenter.setSerialNumber(serialNumber);
+            startPostponedEnterTransition();
         }
     }
 

@@ -5,18 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +23,7 @@ import android.widget.Toast;
 import com.amit.cambium.R;
 import com.amit.cambium.views.projectdetail.ProjectDetailFragment;
 import com.amit.cambium.models.Project;
-import com.amit.cambium.utils.ItemClickListener;
+import com.amit.cambium.utils.ProjectItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnEditorAction;
 import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
@@ -42,7 +39,7 @@ import butterknife.Unbinder;
  * Created by Amit Barjatya on 10/29/17.
  */
 
-public class ProjectListFragment extends Fragment implements ProjectListContract.View, ItemClickListener {
+public class ProjectListFragment extends Fragment implements ProjectListContract.View, ProjectItemClickListener {
 
     private static final String TAG = "ProjListFragment";
 
@@ -125,10 +122,10 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
         super.onDestroyView();
     }
 
+    //On a Project item click, show details of this project in a new fragment
     @Override
-    public void onClick(Object object) {
-        Project project = (Project) object;
-        mPresenter.onItemClicked(project);
+    public void onClick(Project project, TextView titleView, String transitionName) {
+        showDetailsFragmentFor(project,titleView,transitionName);
     }
 
     void initRecyclerView() {
@@ -156,18 +153,16 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
      * Go to details fragment with the given projects serial number
      * @param project
      */
-    @Override
-    public void showDetailsFragmentFor(Project project) {
+    public void showDetailsFragmentFor(Project project,View sharedView, String transitionName) {
         Fragment fragment = new ProjectDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putLong("serialNumber", project.getSerialNumber());
+        bundle.putString("transitionName",transitionName);
         fragment.setArguments(bundle);
         if (getActivity() != null) {
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .setCustomAnimations(android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right, android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right)
+                    .addSharedElement(sharedView, ViewCompat.getTransitionName(sharedView))
                     .replace(R.id.fragment_container, fragment, null)
                     .addToBackStack(null)
                     .commit();
@@ -291,16 +286,6 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
         if(!TextUtils.isEmpty(errorMessage)){
             tvErrorMessage.setText(errorMessage);
         }
-    }
-
-    /**
-     * Show fetch data screen when fetching data for the first time
-     */
-    @Override
-    public void showDataFetchScreen() {
-        rvProjectList.setVisibility(View.GONE);
-        rlFetchingData.setVisibility(View.VISIBLE);
-        rlError.setVisibility(View.GONE);
     }
 
     /**
