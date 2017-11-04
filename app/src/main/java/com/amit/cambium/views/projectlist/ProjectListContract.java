@@ -25,9 +25,9 @@ public interface ProjectListContract {
 
     interface Presenter {
 
-        void onResumed();
+        void onViewCreated();
 
-        void onPaused();
+        void onViewDestroyed();
 
         void applyBackerFilter(String minBacker, String maxBacker);
 

@@ -102,22 +102,12 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         mPresenter = new ProjectListPresenter(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.onResumed();
-    }
-
-    @Override
-    public void onPause() {
-        mPresenter.onPaused();
-        super.onPause();
+        mPresenter.onViewCreated();
     }
 
     @Override
     public void onDestroyView() {
+        mPresenter.onViewDestroyed();
         unbinder.unbind();
         super.onDestroyView();
     }

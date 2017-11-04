@@ -34,7 +34,7 @@ public class ProjectListPresenter implements ProjectListContract.Presenter, Data
     /**
      * WHen the view is resumed ask the datasource for list of projects
      */
-    public void onResumed() {
+    public void onViewCreated() {
         dataSource.getProjectListAsync(this, this);
     }
 
@@ -42,7 +42,7 @@ public class ProjectListPresenter implements ProjectListContract.Presenter, Data
      * when view is paused clear all the resources held by datasource
      */
     @Override
-    public void onPaused() {
+    public void onViewDestroyed() {
         dataSource.clearListeners();
     }
 
