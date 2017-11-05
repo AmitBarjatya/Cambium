@@ -3,6 +3,7 @@ package com.amit.cambium.models.repository;
 import android.util.Log;
 
 import com.amit.cambium.models.Project;
+import com.amit.cambium.utils.Constant;
 import com.amit.cambium.utils.VolleySingleton;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
@@ -18,6 +19,7 @@ import java.util.List;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -51,7 +53,7 @@ public class DataSourceImpl implements DataSource {
     ErrorListener mErrorListener;
 
     /**
-     * a reference to projects in realm
+     * a reference to all projects in realm
      */
     RealmChangeListener<RealmResults<Project>> projectsListener;
 
@@ -59,6 +61,12 @@ public class DataSourceImpl implements DataSource {
      * list of projects currently in realm
      */
     RealmResults<Project> projects;
+
+    private static String TITLE=""; // if there is any search by title
+    private static String SORT_METHOD=""; // default is sort by id
+    private static long MIN_BACKER=Integer.MIN_VALUE;
+    private static long MAX_BACKER=Integer.MAX_VALUE;
+
 
     /**
      * Initialze a realm instance
@@ -78,8 +86,6 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> getProjectListAsync(DataListener dataListener, ErrorListener errorListener) {
-        if (realm.isClosed())
-            realm = Realm.getDefaultInstance();
         this.mDataListener = dataListener;
         this.mErrorListener = errorListener;
         if (mDataListener == null) {
@@ -91,11 +97,36 @@ public class DataSourceImpl implements DataSource {
             projectsListener = new RealmChangeListener<RealmResults<Project>>() {
                 @Override
                 public void onChange(RealmResults<Project> projects) {
-                    mDataListener.onData(projects);
+                    List<Project> projs = findFilteredAndSorted();
+                    mDataListener.onData(projs);
                 }
             };
             projects.addChangeListener(projectsListener);
             return projects;
+        }
+    }
+
+    private List<Project> findFilteredAndSorted() {
+        RealmQuery<Project> query = realm.where(Project.class);
+        if (!TITLE.isEmpty())
+            query = query
+                    .contains(Project.FIELD_TITLE,TITLE,Case.INSENSITIVE);
+
+        query.greaterThan(Project.FIELD_NUM_BACKERS,MIN_BACKER)
+                .lessThan(Project.FIELD_NUM_BACKERS,MAX_BACKER);
+
+
+        switch (SORT_METHOD){
+            case Constant.SORT_BY_END_DECREASING:
+                return query.findAllSorted(Project.FIELD_END_TIME, Sort.DESCENDING);
+            case Constant.SORT_BY_END_INCREASING:
+                return query.findAllSorted(Project.FIELD_END_TIME, Sort.ASCENDING);
+            case Constant.SORT_BY_TITLE_A2Z:
+                return query.findAllSorted(Project.FIELD_TITLE,Sort.ASCENDING);
+            case Constant.SORT_BY_TITLE_Z2A:
+                return query.findAllSorted(Project.FIELD_TITLE,Sort.DESCENDING);
+            default:
+                return query.findAllSorted(Project.FIELD_TITLE);
         }
     }
 
@@ -107,8 +138,6 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public Project getProjectBySerialNumber(long serialNumber) {
-        if (realm.isClosed())
-            realm = Realm.getDefaultInstance();
         return realm.where(Project.class)
                 .equalTo(Project.FIELD_SERIAL_NUMBER, serialNumber)
                 .findFirst();
@@ -133,13 +162,9 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withBackerFilter(long minValue, long maxValue) {
-        if (realm.isClosed())
-            realm = Realm.getDefaultInstance();
-
-        return realm.where(Project.class)
-                .greaterThan(Project.FIELD_NUM_BACKERS,minValue)
-                .lessThan(Project.FIELD_NUM_BACKERS,maxValue)
-                .findAll();
+        MIN_BACKER = minValue;
+        MAX_BACKER = maxValue;
+        return findFilteredAndSorted();
     }
 
     /**
@@ -148,8 +173,8 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withEndAscendingSort() {
-        return realm.where(Project.class)
-                .findAllSorted(Project.FIELD_END_TIME, Sort.ASCENDING);
+        SORT_METHOD = Constant.SORT_BY_END_INCREASING;
+        return findFilteredAndSorted();
     }
 
     /**
@@ -158,8 +183,8 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withEndDescendingSort() {
-        return realm.where(Project.class)
-                .findAllSorted(Project.FIELD_END_TIME, Sort.DESCENDING);
+        SORT_METHOD = Constant.SORT_BY_END_DECREASING;
+        return findFilteredAndSorted();
     }
 
     /**
@@ -168,8 +193,8 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withA2ZSort() {
-        return realm.where(Project.class)
-                .findAllSorted(Project.FIELD_TITLE, Sort.ASCENDING);
+        SORT_METHOD = Constant.SORT_BY_TITLE_A2Z;
+        return findFilteredAndSorted();
     }
 
     /**
@@ -178,9 +203,8 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withZ2ASort() {
-        return realm.where(Project.class)
-                .findAllSorted(Project.FIELD_TITLE, Sort.DESCENDING);
-
+        SORT_METHOD = Constant.SORT_BY_TITLE_A2Z;
+        return findFilteredAndSorted();
     }
 
     /**
@@ -246,12 +270,11 @@ public class DataSourceImpl implements DataSource {
     @Override
     public List<Project> withTitleFilter(String s) {
         if (s==null || s.isEmpty()){
-            return projects;
+            TITLE = "";
         }else{
-            return realm.where(Project.class)
-                    .contains(Project.FIELD_TITLE,s, Case.INSENSITIVE)
-                    .findAll();
+            TITLE = s;
         }
+        return findFilteredAndSorted();
     }
 
     /**
