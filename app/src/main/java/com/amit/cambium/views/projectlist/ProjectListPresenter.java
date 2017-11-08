@@ -150,9 +150,22 @@ public class ProjectListPresenter implements ProjectListContract.Presenter, Data
         }
     }
 
+    /**
+     * Filter the project list with the ones which have 'text' in their title
+     * @param text the text to contain in title
+     */
     @Override
     public void applyTitleFilter(CharSequence text) {
         List<Project> projects = dataSource.withTitleFilter(text.toString());
+        mView.show(projects);
+    }
+
+    /**
+     * Clear all filters from data source and show all
+     */
+    @Override
+    public void clearAllFilters() {
+        List<Project> projects = dataSource.withNoFilters();
         mView.show(projects);
     }
 }

@@ -40,6 +40,8 @@ public interface ProjectListContract {
         void sortByZ2A();
 
         void applyTitleFilter(CharSequence text);
+
+        void clearAllFilters();
     }
 
 }

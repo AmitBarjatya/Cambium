@@ -76,4 +76,10 @@ public interface DataSource {
      * @return
      */
     List<Project> withTitleFilter(String s);
+
+    /**
+     * With no title filter
+     * @return
+     */
+    List<Project> withNoFilters();
 }

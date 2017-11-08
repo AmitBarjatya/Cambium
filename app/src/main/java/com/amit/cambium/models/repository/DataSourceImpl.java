@@ -203,7 +203,7 @@ public class DataSourceImpl implements DataSource {
      */
     @Override
     public List<Project> withZ2ASort() {
-        SORT_METHOD = Constant.SORT_BY_TITLE_A2Z;
+        SORT_METHOD = Constant.SORT_BY_TITLE_Z2A;
         return findFilteredAndSorted();
     }
 
@@ -267,6 +267,11 @@ public class DataSourceImpl implements DataSource {
         });
     }
 
+    /**
+     * Return list of projects whose title contains search string
+     * @param s the search string
+     * @return list of projects
+     */
     @Override
     public List<Project> withTitleFilter(String s) {
         if (s==null || s.isEmpty()){
@@ -274,6 +279,20 @@ public class DataSourceImpl implements DataSource {
         }else{
             TITLE = s;
         }
+        return findFilteredAndSorted();
+    }
+
+    /**
+     * Clear All Filters and show all projects
+     * @return list of all projects
+     */
+    @Override
+    public List<Project> withNoFilters() {
+        TITLE = "";
+        MIN_BACKER = Integer.MIN_VALUE;
+        MAX_BACKER = Integer.MAX_VALUE;
+        SORT_METHOD = "";
+
         return findFilteredAndSorted();
     }
 

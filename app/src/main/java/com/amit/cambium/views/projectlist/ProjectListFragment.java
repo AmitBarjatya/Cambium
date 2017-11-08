@@ -55,6 +55,9 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
     @BindView(R.id.errorText)
     TextView tvErrorMessage;
 
+    @BindView(R.id.search)
+    EditText searchText;
+
     @OnClick(R.id.filter)
     public void onFilterButtonClicked(){
         showFilterDialog();
@@ -63,6 +66,13 @@ public class ProjectListFragment extends Fragment implements ProjectListContract
     @OnClick(R.id.sort)
     public void onSortButtonClicked(){
         showSortOptionDialog();
+    }
+
+    @OnClick(R.id.all)
+    public void onShowAllButtonClicked(){
+        mPresenter.clearAllFilters();
+        searchText.setText("");
+
     }
 
     @OnTextChanged(R.id.search)
